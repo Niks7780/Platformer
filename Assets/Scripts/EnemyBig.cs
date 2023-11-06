@@ -13,7 +13,7 @@ namespace Platformer
         private float _right;
         private float _StartPositionX;
         public Hero _hero;
-        public float _speed = 5;
+        public float _speed = 1.5f;
         public bool _canAttack;
         [SerializeField] private bool _seeHero = false;
         void Start()
@@ -44,17 +44,21 @@ namespace Platformer
         }
         public void TransformPositionRight()
         {
-            
-            _x = _x + 0.003f;
-            gameObject.GetComponent<Transform>().position = new Vector3(_x, transform.position.y, transform.position.z);
-            gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            if (_seeHero == false)
+            {
+                _x = _x + 0.003f;
+                gameObject.GetComponent<Transform>().position = new Vector3(_x, transform.position.y, transform.position.z);
+                gameObject.GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
         public void TransformPositionLeft()
         {
-            
-            _x = _x - 0.003f;
-            gameObject.GetComponent<Transform>().position = new Vector3(_x, transform.position.y, transform.position.z);
-            gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            if (_seeHero == false)
+            {
+                _x = _x - 0.003f;
+                gameObject.GetComponent<Transform>().position = new Vector3(_x, transform.position.y, transform.position.z);
+                gameObject.GetComponent<SpriteRenderer>().flipX = true;
+            }
         }
 
 
@@ -77,7 +81,7 @@ namespace Platformer
             if (collision.gameObject.name == "Hero")
             {
                 _seeHero = true;
-                GoHero();
+                
             }
         }
         private void OnTriggerExit2D(Collider2D collision)
@@ -93,36 +97,68 @@ namespace Platformer
         {
            if (gameObject.transform.position.x < _hero.transform.position.x)
            {
-              if (_hero.transform.position.x - gameObject.transform.position.x < 1.5f)
+                float _positionX = _hero.transform.position.x - gameObject.transform.position.x;
+                Debug.Log("POSITION X" + _positionX);
+                if (_positionX < 3f)
               {
                     _canAttack = true;
-                   
-                    gameObject.transform.position = new Vector3(_hero.transform.position.x - 1.5f, transform.position.y, transform.position.z);
-                    
-              }
+                    gameObject.transform.position = Vector3.MoveTowards(transform.position, new Vector3(_hero.transform.position.x - 2f, transform.position.y, transform.position.z), _speed * Time.deltaTime);
+                    //gameObject.transform.position = new Vector3(_hero.transform.position.x - 1.5f, transform.position.y, transform.position.z);
+
+                }
            }
-                if (_hero.transform.position.x < gameObject.transform.position.x)
+            if (gameObject.transform.position.x > _hero.transform.position.x)
+            {
+                float _positionXX = gameObject.transform.position.x - _hero.transform.position.x;
+                Debug.Log("POSITION XX" + _positionXX);
+                if (_positionXX < 3f)
                 {
-                    if (gameObject.transform.position.x - _hero.transform.position.x < 1.5f)
-                    {
-                        _canAttack = true;
-                    gameObject.transform.position = new Vector3(_hero.transform.position.x - 1.5f, transform.position.y, transform.position.z);
+                    _canAttack = true;
+                    gameObject.transform.position = Vector3.MoveTowards(transform.position, new Vector3(_hero.transform.position.x + 2f, transform.position.y, transform.position.z), _speed * Time.deltaTime);
+                   // gameObject.transform.position = new Vector3(_hero.transform.position.x + 1.5f, transform.position.y, transform.position.z);
+
                 }
-                }
+            }
         }
         private void GoHero()
         {
             if (_seeHero == true && _canAttack == false)
-                gameObject.transform.position = Vector3.MoveTowards(transform.position, _hero.transform.position, _speed * Time.deltaTime);
-            Debug.Log("GO HERo");
+            {
+                gameObject.transform.position = Vector3.MoveTowards(transform.position, new Vector3(_hero.transform.position.x + 1.5f, transform.position.y, transform.position.z), _speed * Time.deltaTime);
+                Debug.Log("GO HERo");
+            }
+            /*if (gameObject.transform.position.x < _hero.transform.position.x)
+            {
+                float _positionX = _hero.transform.position.x - gameObject.transform.position.x;
+                Debug.Log("POSITION X" + _positionX);
+                if (_positionX < 3f)
+                {
+                    _canAttack = true;
+                    gameObject.transform.position = Vector3.MoveTowards(transform.position, new Vector3(_hero.transform.position.x - 2f, transform.position.y, transform.position.z), _speed * Time.deltaTime);
+                    //gameObject.transform.position = new Vector3(_hero.transform.position.x - 1.5f, transform.position.y, transform.position.z);
+
+                }
+            }
+            if (gameObject.transform.position.x > _hero.transform.position.x)
+            {
+                float _positionXX = gameObject.transform.position.x - _hero.transform.position.x;
+                Debug.Log("POSITION XX" + _positionXX);
+                if (_positionXX < 3f)
+                {
+                    _canAttack = true;
+                    //gameObject.transform.position = Vector3.MoveTowards(transform.position, new Vector3(_hero.transform.position.x + 2f, transform.position.y, transform.position.z), _speed * Time.deltaTime);
+                    // gameObject.transform.position = new Vector3(_hero.transform.position.x + 1.5f, transform.position.y, transform.position.z);
+
+                }
+            }*/
         }
         void Update()
         {
-            //GoHero();
-            AttackHero();
+            GoHero();
+            //AttackHero();
             AddTransformUpdate();
             AutoTransformPosition();
-            
+            //Debug.Log("GOTP" + gameObject.transform.position);
         }
     }
 }

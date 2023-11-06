@@ -34,7 +34,7 @@ namespace Platformer
             if (gameObject.transform.position.x != _one.transform.position.x && _oneBool == false)
             {
                 gameObject.transform.position = Vector3.MoveTowards(transform.position, _one.transform.position, _speed * Time.deltaTime);
-                Debug.Log("ENEMY FLY ONE");
+                
             }
 
             if (gameObject.transform.position.x >=  _one.transform.position.x)
@@ -45,7 +45,7 @@ namespace Platformer
             if (_oneBool == true)
             {
                 gameObject.transform.position = Vector3.MoveTowards(transform.position, _two.transform.position, _speed * Time.deltaTime);
-                Debug.Log("ENEMY FLY Two");
+                
             }
             if (gameObject.transform.position.x <= _two.transform.position.x)
             {

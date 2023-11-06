@@ -29,8 +29,11 @@ namespace Platformer
             }
             if (col.gameObject.tag == "EnemyBig")
             {
-                EnemyBig._xx = EnemyBig._xx - 1;
-
+                EnemyBigTransformPosition._xx = EnemyBigTransformPosition._xx - 1;
+                if (EnemyBigTransformPosition._xx <= 0)
+                {
+                    Destroy(col.gameObject);
+                }
             }
         }
 
