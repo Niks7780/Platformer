@@ -22,8 +22,8 @@ namespace Platformer
 
         void Start()
         {
-            _left.transform.position = new Vector3(gameObject.transform.position.x - 5, gameObject.transform.position.y, gameObject.transform.position.z);
-            _right.transform.position = new Vector3(gameObject.transform.position.x + 5, gameObject.transform.position.y, gameObject.transform.position.z);
+            _left.transform.position = new Vector3(_left.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+            _right.transform.position = new Vector3(_right.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
         }
 
         private void Awake()

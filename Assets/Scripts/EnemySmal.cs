@@ -63,8 +63,8 @@ namespace Platformer
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-           
-            if (collision.gameObject.name == "Hero")
+            
+                if (collision.gameObject.name == "Hero")
             {
                 if (gameObject.transform.position.x > _hero.transform.position.x)
                 {
@@ -90,8 +90,7 @@ namespace Platformer
 
                 Destroy(_bulletClone, 1);
             }
-
-            
+               
         }
         private void OnTriggerExit2D(Collider2D collision)
         {
